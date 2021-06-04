@@ -1,11 +1,12 @@
+#!/bin/bash
 #      1. go to ~/openupi (assume this dir will be there, if not exit)
 #      2. source overcloudrc
 #      3. list the openstack servers
 #      4. associate floating ip to those servers, if not attached.
 #      5. server & corresponding floating ip.
 
-#!/bin/bash
 set -x
+
 if [ -d ~/openupi ]
 then
     # 1
