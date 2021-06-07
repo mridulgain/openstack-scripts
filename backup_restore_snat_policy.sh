@@ -18,6 +18,8 @@ backup()
         kubectl get ${snatPolicies[$i]} -o yaml > ${backup_location}/snat_$i.yaml
         kubectl delete ${snatPolicies[$i]}
     done
+    # kubectl get -o=yaml $(kubectl get -o name snatpolicy) > ${backup_location}/snat_policy.bak
+    # kubectl delete $(kubectl get -o name snatpolicy)
 }
 
 apply()
@@ -26,6 +28,7 @@ apply()
     do
         kubectl apply -f $i
     done
+    # kubectl apply -f ~${restore_location}/snat_policy.bak
 }
 
 help()
