@@ -5,17 +5,18 @@
 #   remove/delete them.
 # :restore:
 #   re-deploy using the details recorded in step 1.
+# Take bash argument to perform each task at a time.
 
 set -x
 
 backup()
 {
-    readarray -t snatPolicies < <(kubectl get snatpolicy -A -o name| tail +2)
+    readarray -t snatPolicies < <(kubectl get snatpolicy -A -o name)
     declare -p snatPolicies
     for i in ${!snatPolicies[@]}
     do
-        kubectl get snatpolicy ${snatPolicies[$i]} -o yaml > ${backup_location}/snat_$i.yaml
-        kubectl delete snatpolicy ${snatPolicies[$i]}
+        kubectl get ${snatPolicies[$i]} -o yaml > ${backup_location}/snat_$i.yaml
+        kubectl delete ${snatPolicies[$i]}
     done
 }
 
@@ -42,7 +43,7 @@ help()
 if [[ $# -eq 1  || $# -eq 2 ]]
 then
     opt=$1
-    case $opt in 
+    case $opt in
         -b|--backup)
         backup_location="/tmp"
         if [ ! -z $2 ];then backup_location=$2;fi
